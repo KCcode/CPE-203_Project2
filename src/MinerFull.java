@@ -3,7 +3,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.Optional;
 
-public class MinerFull {
+public class MinerFull implements Miner //extends Entity
+{
+    /*
     public static final String MINER_KEY = "miner";
     public static final int MINER_NUM_PROPERTIES = 7;
     public static final int MINER_ID = 1;
@@ -12,7 +14,7 @@ public class MinerFull {
     public static final int MINER_LIMIT = 4;
     public static final int MINER_ACTION_PERIOD = 5;
     public static final int MINER_ANIMATION_PERIOD = 6;
-
+*/
     private String id;
     private Point position;
     private List<PImage> images;

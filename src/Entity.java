@@ -16,6 +16,7 @@ final class Entity
    private int actionPeriod;
    private int animationPeriod; //Already has a getter
 
+   //Private move to Ore and Vein classes
    private static final Random rand = new Random();
 
    public static final String BLOB_KEY = "blob";
@@ -164,7 +165,7 @@ final class Entity
       scheduleActions(blob, scheduler, world, imageStore);
    }
 
-   //Move to Blob class
+   //Move to OreBlob class
    public void executeOreBlobActivity(Entity entity, WorldModel world,ImageStore imageStore, EventScheduler scheduler){
 
       Optional<Entity> blobTarget = world.findNearest(position,EntityKind.VEIN);

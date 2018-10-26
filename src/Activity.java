@@ -17,6 +17,7 @@ public class Activity implements Action{
     {
         //When well written this will change to
         //entity.executeActivity(entity, world, imageStore, scheduler);
+        //((MinerFull)entity).executeActivity(entity, world, imageStore, scheduler)
         //switch will be removed
         switch (entity.getEntityKind())
         {
