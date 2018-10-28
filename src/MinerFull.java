@@ -24,10 +24,9 @@ public class MinerFull implements Miner //extends Entity
     private int actionPeriod;
     private int animationPeriod; //Already has a getter
 
-    private static final Random rand = new Random();
 
     MinerFull(String id, Point position,
-           List<PImage> images, int resourceLimit, int resourceCount,
+           List<PImage> images, int resourceLimit, //int resourceCount,
            int actionPeriod, int animationPeriod)
     {
         this.id = id;
@@ -35,11 +34,12 @@ public class MinerFull implements Miner //extends Entity
         this.images = images;
         this.imageIndex = 0;
         this.resourceLimit = resourceLimit;
-        this.resourceCount = resourceCount;
+        this.resourceCount = resourceLimit;
         this.actionPeriod = actionPeriod;
         this.animationPeriod = animationPeriod;
     }
 
+    public void setPosition(Point inPos) {position = inPos;}
     public Point getPosition(){return position;}
     public int getAnimationPeriod() {return animationPeriod;}
 
@@ -49,37 +49,46 @@ public class MinerFull implements Miner //extends Entity
         imageIndex = (imageIndex + 1) % images.size();
     }
 
-    //Move to MinerFull Class
-    public void executeMinerFullActivity(Entity entity, WorldModel world, ImageStore imageStore, EventScheduler scheduler){
-        Optional<Entity> fullTarget = world.findNearest(position,EntityKind.BLACKSMITH);
+    public List<PImage> getImages(){return images;}
 
-        if (fullTarget.isPresent() && moveToFull(entity, world, fullTarget.get(), scheduler))
+    public int getImageIndex(){return imageIndex;}
+
+    //Move to MinerFull Class
+    //public void executeMinerFullActivity(Entity entity, WorldModel world, ImageStore imageStore, EventScheduler scheduler){
+    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler){
+
+        Optional<Entity> fullTarget = world.findNearest(position, BlackSmith.class);//EntityKind.BLACKSMITH);
+                                      //moveToFull
+        if (fullTarget.isPresent() && moveTo(world, fullTarget.get(), scheduler))
         {
-            transformFull(entity, world, scheduler, imageStore);
+            transformFull(world, scheduler, imageStore);
         }
         else
         {
-            scheduler.scheduleEvent(entity, createActivityAction(entity,world,imageStore), actionPeriod);
+            scheduler.scheduleEvent(this, new Activity(this, world, imageStore), actionPeriod);//createActivityAction(entity,world,imageStore), actionPeriod);
         }
     }
 
     //Move to MinerFull
-    public void transformFull(Entity entity, WorldModel world,EventScheduler scheduler, ImageStore imageStore)
+    public void transformFull(WorldModel world,EventScheduler scheduler, ImageStore imageStore)
     {
         //Kattia - Alert
-        Entity miner = Functions.createMinerNotFull(id, resourceLimit, position, actionPeriod, animationPeriod, images);
+        //Entity miner = Functions.createMinerNotFull(id, resourceLimit, position, actionPeriod, animationPeriod, images);
+        MinerNotFull miner = new MinerNotFull(id, position, images, resourceLimit, //resourceCount,
+                actionPeriod, animationPeriod);
 
-        world.removeEntity(entity);
-        scheduler.unscheduleAllEvents(entity);
+        world.removeEntity(this);
+        scheduler.unscheduleAllEvents(this);
         world.addEntity(miner);
-        scheduleActions(miner, scheduler, world, imageStore);
+        this.scheduleActions(scheduler, world, imageStore);
     }
 
     //Move to MinerFull and make private
-    private boolean moveToFull(Entity miner, WorldModel world, Entity target, EventScheduler scheduler)
+    //private boolean moveToFull(Entity miner, WorldModel world, Entity target, EventScheduler scheduler)
+    public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler)
     {
         //Kattia - Alert
-        if (Functions.adjacent(miner.getPosition(), target.getPosition()))
+        if (Functions.adjacent(this.getPosition(), target.getPosition()))
         {
             return true;
         }
@@ -87,7 +96,7 @@ public class MinerFull implements Miner //extends Entity
         {
             Point nextPos = nextPositionMiner(world, target.getPosition());
 
-            if (!miner.getPosition().equals(nextPos))
+            if (!this.getPosition().equals(nextPos))
             {
                 Optional<Entity> occupant = world.getOccupant(nextPos);
                 if (occupant.isPresent())
@@ -95,7 +104,7 @@ public class MinerFull implements Miner //extends Entity
                     scheduler.unscheduleAllEvents(occupant.get());
                 }
 
-                world.moveEntity(miner,nextPos);
+                world.moveEntity(this,nextPos);
             }
             return false;
         }
@@ -126,10 +135,13 @@ public class MinerFull implements Miner //extends Entity
 
     //Create scheduleActions for EACH of the following classes: MinerFull, MinerNotFull,Ore, OreBlob, Quake,and Vein
     //Remove this switch and it defines if each class needs and activity or animation or both
-    public void scheduleActions(Entity entity, EventScheduler scheduler,WorldModel world, ImageStore imageStore)
+    public void scheduleActions(EventScheduler scheduler,WorldModel world, ImageStore imageStore)
     {
-        scheduler.scheduleEvent(entity, entity.createActivityAction(entity,world, imageStore), actionPeriod);
-        scheduler.scheduleEvent(entity,entity.createAnimationAction(entity,0), entity.getAnimationPeriod());
+        scheduler.scheduleEvent(this, new Activity(this,world, imageStore), actionPeriod);
+        scheduler.scheduleEvent(this, new Animation(this,0), this.getAnimationPeriod());//.getAnimationPeriod());
+
+        //scheduler.scheduleEvent(entity, entity.createActivityAction(entity,world, imageStore), actionPeriod);
+        //scheduler.scheduleEvent(entity,entity.createAnimationAction(entity,0), entity.getAnimationPeriod());
         /*
         switch (kind)
         {

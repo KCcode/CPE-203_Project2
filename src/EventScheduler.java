@@ -19,13 +19,13 @@ final class EventScheduler
               (long)(afterPeriod * timeScale);
       Event event = new Event(action, time, entity);
 
-      eventQueue.add(event);
+      this.eventQueue.add(event);
 
       // update list of pending events for the given entity
       List<Event> pending = pendingEvents.getOrDefault(entity,
               new LinkedList<>());
       pending.add(event);
-      pendingEvents.put(entity, pending);
+      this.pendingEvents.put(entity, pending);
    }
 
    public void unscheduleAllEvents(Entity entity)
@@ -36,7 +36,7 @@ final class EventScheduler
       {
          for (Event event : pending)
          {
-            eventQueue.remove(event);
+            this.eventQueue.remove(event);
          }
       }
    }

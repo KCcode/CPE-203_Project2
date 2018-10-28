@@ -158,7 +158,44 @@ public final class VirtualWorld
    {
       for (Entity entity : world.getEntities())//.entities)
       {
-         entity.scheduleActions(entity,scheduler,world,imageStore);
+         if(entity instanceof MinerFull){((MinerFull)entity).scheduleActions(scheduler,world,imageStore);}
+
+         if(entity instanceof MinerNotFull){((MinerNotFull)entity).scheduleActions(scheduler,world,imageStore);}
+
+         if(entity instanceof Ore){((Ore)entity).scheduleActions(scheduler,world,imageStore);}
+
+         if(entity instanceof OreBlob){((OreBlob)entity).scheduleActions(scheduler,world,imageStore);}
+
+         if(entity instanceof Quake){((Quake)entity).scheduleActions(scheduler,world,imageStore);}
+
+         if(entity instanceof Vein){((Vein)entity).scheduleActions(scheduler,world,imageStore);}
+
+         /*
+
+         if(entity.getClass().isInstance(MinerFull.class)){ ((MinerFull)entity).scheduleActions(scheduler,world,imageStore);}
+
+         if(entity.getClass().isInstance(MinerNotFull.class)){((MinerNotFull)entity).scheduleActions(scheduler,world,imageStore);}
+
+         if(entity.getClass().isInstance(Ore.class)){((Ore)entity).scheduleActions(scheduler,world,imageStore);}
+
+         if(entity.getClass().isInstance(OreBlob.class)){((OreBlob)entity).scheduleActions(scheduler,world,imageStore);}
+
+         if(entity.getClass().isInstance(Quake.class)){((Quake)entity).scheduleActions(scheduler,world,imageStore);}
+
+         if(entity.getClass().isInstance(Vein.class)){((Vein)entity).scheduleActions(scheduler,world,imageStore);}
+         */
+         /*
+
+
+
+         case ORE_BLOB:
+
+
+         case QUAKE:
+
+         case VEIN:
+         * */
+        // entity.scheduleActions(entity,scheduler,world,imageStore);
       }
    }
 

@@ -1,3 +1,14 @@
+import processing.core.PImage;
+import java.util.List;
+
+public interface Entity{
+   Point getPosition();
+   List<PImage> getImages();
+   int getImageIndex();
+   void setPosition(Point inPos);
+   void nextImage();
+}
+/*
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -17,24 +28,29 @@ final class Entity
    private int animationPeriod; //Already has a getter
 
    //Private move to Ore and Vein classes
-   private static final Random rand = new Random();
+   //private static final Random rand = new Random();
 
+   /*
    public static final String BLOB_KEY = "blob";
    public static final String BLOB_ID_SUFFIX = " -- blob";
    public static final int BLOB_PERIOD_SCALE = 4;
    public static final int BLOB_ANIMATION_MIN = 50;
    public static final int BLOB_ANIMATION_MAX = 150;
+*/
 
+   /*
    public static final String ORE_ID_PREFIX = "ore -- ";
    public static final int ORE_CORRUPT_MIN = 20000;
    public static final int ORE_CORRUPT_MAX = 30000;
    public static final int ORE_REACH = 1;
-
+*/
+   /*
    public static final String QUAKE_KEY = "quake";
    public static final String QUAKE_ID = "quake";
    public static final int QUAKE_ACTION_PERIOD = 1100;
    public static final int QUAKE_ANIMATION_PERIOD = 100;
    public static final int QUAKE_ANIMATION_REPEAT_COUNT = 10;
+   */
 
    /*
    public static final String MINER_KEY = "miner";
@@ -46,25 +62,31 @@ final class Entity
    public static final int MINER_ACTION_PERIOD = 5;
    public static final int MINER_ANIMATION_PERIOD = 6;
 */
+   /*
    public static final String OBSTACLE_KEY = "obstacle";
    public static final int OBSTACLE_NUM_PROPERTIES = 4;
    public static final int OBSTACLE_ID = 1;
    public static final int OBSTACLE_COL = 2;
    public static final int OBSTACLE_ROW = 3;
-
+*/
+   /*
    public static final String ORE_KEY = "ore";
    public static final int ORE_NUM_PROPERTIES = 5;
    public static final int ORE_ID = 1;
    public static final int ORE_COL = 2;
    public static final int ORE_ROW = 3;
    public static final int ORE_ACTION_PERIOD = 4;
+*/
 
+   /*
    public static final String SMITH_KEY = "blacksmith";
    public static final int SMITH_NUM_PROPERTIES = 4;
    public static final int SMITH_ID = 1;
    public static final int SMITH_COL = 2;
    public static final int SMITH_ROW = 3;
+   */
 
+   /*
    public static final String VEIN_KEY = "vein";
    public static final int VEIN_NUM_PROPERTIES = 5;
    public static final int VEIN_ID = 1;
@@ -98,7 +120,7 @@ final class Entity
 
    public void setPosition(Point inPos) {position = inPos;}
 
-
+/*
    public int getAnimationPeriod()
    {
       switch (kind)
@@ -113,13 +135,14 @@ final class Entity
                     String.format("getAnimationPeriod not supported for %s",
                             kind));
       }
-   }
+   }*/
 
+/*
    //NextImage only for classes that have animations
    public void nextImage()
    {
       imageIndex = (imageIndex + 1) % images.size();
-   }
+   }*/
 
 /*
    //Move to MinerFull Class
@@ -136,6 +159,7 @@ final class Entity
       }
    }
 */
+/*
    //Move to MinerNotFull Class
    public void executeMinerNotFullActivity(Entity entity, WorldModel world, ImageStore imageStore, EventScheduler scheduler){
       Optional<Entity> notFullTarget = world.findNearest(position, EntityKind.ORE);
@@ -147,7 +171,8 @@ final class Entity
          scheduler.scheduleEvent(entity, createActivityAction(entity, world, imageStore), actionPeriod);
       }
    }
-
+*/
+/*
    //Move to Ore class
    public void executeOreActivity(Entity entity, WorldModel world, ImageStore imageStore, EventScheduler scheduler){
       Point pos = position;  // store current position before removing
@@ -163,8 +188,9 @@ final class Entity
 
       world.addEntity(blob);
       scheduleActions(blob, scheduler, world, imageStore);
-   }
+   }*/
 
+   /*
    //Move to OreBlob class
    public void executeOreBlobActivity(Entity entity, WorldModel world,ImageStore imageStore, EventScheduler scheduler){
 
@@ -186,15 +212,17 @@ final class Entity
       }
 
       scheduler.scheduleEvent(entity, createActivityAction(entity,world,imageStore), nextPeriod);
-   }
+   }*/
 
+   /*
    //Move to Quake class
    public void executeQuakeActivity(Entity entity, WorldModel world, EventScheduler scheduler)
    {
       scheduler.unscheduleAllEvents(entity);
       world.removeEntity(entity);
-   }
+   }*/
 
+   /*
    //Move to Vein class
    public void executeVeinActivity(Entity entity, WorldModel world,ImageStore imageStore, EventScheduler scheduler)
    {
@@ -211,8 +239,9 @@ final class Entity
       }
 
       scheduler.scheduleEvent(entity, entity.createActivityAction(entity, world, imageStore), actionPeriod);
-   }
+   }*/
 
+   /*
    //Create scheduleActions for EACH of the following classes: MinerFull, MinerNotFull,Ore, OreBlob, Quake,and Vein
    //Remove this switch and it defines if each class needs and activity or animation or both
    public void scheduleActions(Entity entity, EventScheduler scheduler,WorldModel world, ImageStore imageStore)
@@ -255,7 +284,8 @@ final class Entity
          default:
       }
    }
-
+*/
+   /*
    //Move to MinerNotFull Class and make it PRIVATE
    public boolean transformNotFull(Entity entity, WorldModel world, EventScheduler scheduler, ImageStore imageStore)
    {
@@ -273,7 +303,7 @@ final class Entity
       }
 
       return false;
-   }
+   }*/
 
    /*
    //Move to MinerFull
@@ -288,6 +318,7 @@ final class Entity
       scheduleActions(miner, scheduler, world, imageStore);
    }
 */
+   /*
    //Move to MinerNotFull and make private
    public boolean moveToNotFull(Entity miner, WorldModel world, Entity target, EventScheduler scheduler)
    {
@@ -316,7 +347,7 @@ final class Entity
          }
          return false;
       }
-   }
+   }*/
 
    /*
    //Move to MinerFull and make private
@@ -346,6 +377,7 @@ final class Entity
    }
 */
 
+   /*
    //Move to OreBlob and make private
    public boolean moveToOreBlob(Entity blob, WorldModel world,Entity target, EventScheduler scheduler)
    {
@@ -372,8 +404,9 @@ final class Entity
          }
          return false;
       }
-   }
+   }*/
 
+/*
    //MinerFull AND MinerNotFull uses this send to Miner interface?
     // Called by the move functions this should be PRIVATE
    public Point nextPositionMiner(WorldModel world, Point destPos)
@@ -396,7 +429,9 @@ final class Entity
 
       return newPos;
    }
+*/
 
+/*
    //OreBlob class and make private
    public Point nextPositionOreBlob(WorldModel world,Point destPos)
    {
@@ -424,6 +459,7 @@ final class Entity
    }
 
 
+
    //Constructor for Animation - change and move to Aniamtion
    public Action createAnimationAction(Entity entity, int repeatCount)
    {
@@ -437,5 +473,5 @@ final class Entity
        return new Activity(entity, world, imageStore);
       //return new Action(ActionKind.ACTIVITY, entity, world, imageStore, 0);
    }
-
-}
+*/
+//}

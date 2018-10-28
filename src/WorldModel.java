@@ -55,12 +55,12 @@ final class WorldModel
               getOccupancyCell(pos) != null;
    }
 
-   public Optional<Entity> findNearest(Point pos, EntityKind kind)
+   public Optional<Entity> findNearest(Point pos, Class kind)
    {
       List<Entity> ofType = new LinkedList<>();
       for (Entity entity : entities)
       {
-         if (entity.getEntityKind() == kind)
+         if (entity.getClass() == kind)//.isInstance(kind))//entity.getEntityKind() == kind)
          {
             ofType.add(entity);
          }
@@ -167,9 +167,9 @@ final class WorldModel
    public Optional<Point> findOpenAround(Point pos)
    {
       //Kattia - Alert
-      for (int dy = -(Entity.ORE_REACH); dy <= Entity.ORE_REACH; dy++)
+      for (int dy = -(Ore.ORE_REACH); dy <= Ore.ORE_REACH; dy++)
       {
-         for (int dx = -(Entity.ORE_REACH); dx <= Entity.ORE_REACH; dx++)
+         for (int dx = -(Ore.ORE_REACH); dx <= Ore.ORE_REACH; dx++)
          {
             Point newPt = new Point(pos.x + dx, pos.y + dy);
             if (withinBounds(newPt) &&

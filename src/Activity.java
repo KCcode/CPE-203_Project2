@@ -15,10 +15,24 @@ public class Activity implements Action{
 
     public void executeAction(EventScheduler scheduler)
     {
+
         //When well written this will change to
         //entity.executeActivity(entity, world, imageStore, scheduler);
         //((MinerFull)entity).executeActivity(entity, world, imageStore, scheduler)
         //switch will be removed
+
+        if (entity instanceof MinerFull){((MinerFull) entity).executeActivity(world,imageStore,scheduler);}
+
+        if (entity instanceof MinerNotFull){((MinerNotFull) entity).executeActivity(world,imageStore,scheduler);}
+
+        if (entity instanceof Ore){((Ore) entity).executeActivity(world,imageStore,scheduler);}
+
+        if (entity instanceof OreBlob){((OreBlob) entity).executeActivity(world,imageStore,scheduler);}
+
+        if (entity instanceof Quake){((Quake) entity).executeActivity(world, scheduler);}
+
+        if (entity instanceof Vein){((Vein) entity).executeActivity(world,imageStore,scheduler);}
+        /*
         switch (entity.getEntityKind())
         {
             case MINER_FULL:
@@ -48,6 +62,6 @@ public class Activity implements Action{
             default:
                 throw new UnsupportedOperationException(
                         String.format("executeActivityAction not supported for %s", entity.getEntityKind()));
-        }
+        }*/
     }
 }
