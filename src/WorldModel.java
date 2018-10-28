@@ -60,13 +60,11 @@ final class WorldModel
       List<Entity> ofType = new LinkedList<>();
       for (Entity entity : entities)
       {
-         if (entity.getClass() == kind)//.isInstance(kind))//entity.getEntityKind() == kind)
+         if (entity.getClass() == kind)
          {
             ofType.add(entity);
          }
       }
-
-      //Kattia - Alert
       return Functions.nearestEntity(ofType, pos);
    }
 

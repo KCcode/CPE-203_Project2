@@ -61,19 +61,7 @@ final class EventScheduler
          removePendingEvent(next);
 
          next.getAction().executeAction(this);
-         /*
-         if (next.getAction() instanceof Activity) {
-            ((Activity) next.getAction()).executeActivityAction(this);
-         }
-
-         else{
-            if (next.getAction() instanceof Animation) {
-               ((Animation) next.getAction()).executeAnimationAction(this);
-            }
-         }
-         */
-      }
-         //next.getAction().executeAction(this);
       }
    }
+}
 

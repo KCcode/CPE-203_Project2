@@ -33,7 +33,6 @@ final class Functions
       else if (entity instanceof Entity)
       {
          return ((Entity)entity).getImages().get(((Entity)entity).getImageIndex());
-         //return ((Entity)entity).images.get(((Entity)entity).imageIndex);
       }
       else
       {
@@ -156,7 +155,6 @@ final class Functions
             case BGND_KEY:
                return parseBackground(properties, world, imageStore);
             case Miner.MINER_KEY:
-            //case MinerFull.MINER_KEY:
                return parseMiner(properties, world, imageStore);
             case Obstacle.OBSTACLE_KEY:
                return parseObstacle(properties, world, imageStore);
@@ -193,14 +191,6 @@ final class Functions
       {
          Point pt = new Point(Integer.parseInt(properties[Miner.MINER_COL]),
                  Integer.parseInt(properties[Miner.MINER_ROW]));
-         /*
-         Entity entity = createMinerNotFull(properties[Miner.MINER_ID],
-                 Integer.parseInt(properties[Miner.MINER_LIMIT]),
-                 pt,
-                 Integer.parseInt(properties[Miner.MINER_ACTION_PERIOD]),
-                 Integer.parseInt(properties[Miner.MINER_ANIMATION_PERIOD]),
-                 imageStore.getImageList(Miner.MINER_KEY));
-                 */
 
          MinerNotFull entity = new MinerNotFull(properties[Miner.MINER_ID], pt, imageStore.getImageList(Miner.MINER_KEY),
                  Integer.parseInt(properties[Miner.MINER_LIMIT]),
@@ -221,10 +211,6 @@ final class Functions
          Point pt = new Point(
                  Integer.parseInt(properties[Obstacle.OBSTACLE_COL]),
                  Integer.parseInt(properties[Obstacle.OBSTACLE_ROW]));
-         /*
-         Entity entity = createObstacle(properties[Entity.OBSTACLE_ID],
-                 pt, imageStore.getImageList(Entity.OBSTACLE_KEY));
-                 */
 
          Obstacle entity = new Obstacle(properties[Obstacle.OBSTACLE_ID],
                  pt, imageStore.getImageList(Obstacle.OBSTACLE_KEY));
@@ -243,10 +229,6 @@ final class Functions
       {
          Point pt = new Point(Integer.parseInt(properties[Ore.ORE_COL]),
                  Integer.parseInt(properties[Ore.ORE_ROW]));
-         /*
-         Entity entity = createOre(properties[Entity.ORE_ID],
-                 pt, Integer.parseInt(properties[Entity.ORE_ACTION_PERIOD]),
-                 imageStore.getImageList(Entity.ORE_KEY));*/
 
          Ore entity = new Ore(properties[Ore.ORE_ID], pt, imageStore.getImageList(Ore.ORE_KEY),
                  Integer.parseInt(properties[Ore.ORE_ACTION_PERIOD]));
@@ -264,10 +246,7 @@ final class Functions
       {
          Point pt = new Point(Integer.parseInt(properties[BlackSmith.SMITH_COL]),
                  Integer.parseInt(properties[BlackSmith.SMITH_ROW]));
-         /*
-         Entity entity = createBlacksmith(properties[Entity.SMITH_ID],
-                 pt, imageStore.getImageList(Entity.SMITH_KEY));
-         */
+
          BlackSmith entity = new BlackSmith(properties[BlackSmith.SMITH_ID],
                  pt, imageStore.getImageList(BlackSmith.SMITH_KEY));
 
@@ -284,12 +263,7 @@ final class Functions
       {
          Point pt = new Point(Integer.parseInt(properties[Vein.VEIN_COL]),
                  Integer.parseInt(properties[Vein.VEIN_ROW]));
-         /*
-         Entity entity = createVein(properties[Entity.VEIN_ID],
-                 pt,
-                 Integer.parseInt(properties[Entity.VEIN_ACTION_PERIOD]),
-                 imageStore.getImageList(Entity.VEIN_KEY));
-         */
+
          Vein entity = new Vein(properties[Vein.VEIN_ID],
                  pt,imageStore.getImageList(Vein.VEIN_KEY),Integer.parseInt(properties[Vein.VEIN_ACTION_PERIOD]));
 
@@ -337,69 +311,4 @@ final class Functions
       return Math.min(high, Math.max(value, low));
    }
 
-   /*
-   //Move to BlackSmith - Constructor
-   public static Entity createBlacksmith(String id, Point position,
-                                         List<PImage> images)
-   {
-      return new Entity(EntityKind.BLACKSMITH, id, position, images,
-              0, 0, 0, 0);
-   }
-
-   //Move to MinerFull - Constructor
-   public static Entity createMinerFull(String id, int resourceLimit,
-                                        Point position, int actionPeriod, int animationPeriod,
-                                        List<PImage> images)
-   {
-      return new Entity(EntityKind.MINER_FULL, id, position, images,
-              resourceLimit, resourceLimit, actionPeriod, animationPeriod);
-   }
-
-   //Move to MinerNotFull - Constructor
-   public static Entity createMinerNotFull(String id, int resourceLimit,
-                                           Point position, int actionPeriod, int animationPeriod,
-                                           List<PImage> images)
-   {
-      return new Entity(EntityKind.MINER_NOT_FULL, id, position, images,
-              resourceLimit, 0, actionPeriod, animationPeriod);
-   }
-
-   //Move to Obstacle - Constructor
-   public static Entity createObstacle(String id, Point position,
-                                       List<PImage> images)
-   {
-      return new Entity(EntityKind.OBSTACLE, id, position, images,
-              0, 0, 0, 0);
-   }
-
-   //Move to Ore - Constructor
-   public static Entity createOre(String id, Point position, int actionPeriod,
-                                  List<PImage> images)
-   {
-      return new Entity(EntityKind.ORE, id, position, images, 0, 0,
-              actionPeriod, 0);
-   }
-
-   //Move to OreBlob - Constructor
-   public static Entity createOreBlob(String id, Point position,
-                                      int actionPeriod, int animationPeriod, List<PImage> images)
-   {
-      return new Entity(EntityKind.ORE_BLOB, id, position, images,
-              0, 0, actionPeriod, animationPeriod);
-   }
-
-   //Move to Quake - Constructor
-   public static Entity createQuake(Point position, List<PImage> images)
-   {
-      return new Entity(EntityKind.QUAKE, Entity.QUAKE_ID, position, images,
-              0, 0, Entity.QUAKE_ACTION_PERIOD, Entity.QUAKE_ANIMATION_PERIOD);
-   }
-
-   //Move to Vein - Constructor
-   public static Entity createVein(String id, Point position, int actionPeriod,
-                                   List<PImage> images)
-   {
-      return new Entity(EntityKind.VEIN, id, position, images, 0, 0,
-              actionPeriod, 0);
-   }*/
 }

@@ -1,20 +1,9 @@
 import processing.core.PImage;
 import java.util.List;
-import java.util.Random;
 import java.util.Optional;
 
-public class MinerFull implements Miner //extends Entity
+public class MinerFull implements Miner
 {
-    /*
-    public static final String MINER_KEY = "miner";
-    public static final int MINER_NUM_PROPERTIES = 7;
-    public static final int MINER_ID = 1;
-    public static final int MINER_COL = 2;
-    public static final int MINER_ROW = 3;
-    public static final int MINER_LIMIT = 4;
-    public static final int MINER_ACTION_PERIOD = 5;
-    public static final int MINER_ANIMATION_PERIOD = 6;
-*/
     private String id;
     private Point position;
     private List<PImage> images;
@@ -54,7 +43,6 @@ public class MinerFull implements Miner //extends Entity
     public int getImageIndex(){return imageIndex;}
 
     //Move to MinerFull Class
-    //public void executeMinerFullActivity(Entity entity, WorldModel world, ImageStore imageStore, EventScheduler scheduler){
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler){
 
         Optional<Entity> fullTarget = world.findNearest(position, BlackSmith.class);//EntityKind.BLACKSMITH);
@@ -73,7 +61,6 @@ public class MinerFull implements Miner //extends Entity
     public void transformFull(WorldModel world,EventScheduler scheduler, ImageStore imageStore)
     {
         //Kattia - Alert
-        //Entity miner = Functions.createMinerNotFull(id, resourceLimit, position, actionPeriod, animationPeriod, images);
         MinerNotFull miner = new MinerNotFull(id, position, images, resourceLimit, //resourceCount,
                 actionPeriod, animationPeriod);
 
@@ -84,7 +71,6 @@ public class MinerFull implements Miner //extends Entity
     }
 
     //Move to MinerFull and make private
-    //private boolean moveToFull(Entity miner, WorldModel world, Entity target, EventScheduler scheduler)
     public boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler)
     {
         //Kattia - Alert
@@ -134,51 +120,9 @@ public class MinerFull implements Miner //extends Entity
     }
 
     //Create scheduleActions for EACH of the following classes: MinerFull, MinerNotFull,Ore, OreBlob, Quake,and Vein
-    //Remove this switch and it defines if each class needs and activity or animation or both
     public void scheduleActions(EventScheduler scheduler,WorldModel world, ImageStore imageStore)
     {
         scheduler.scheduleEvent(this, new Activity(this,world, imageStore), actionPeriod);
         scheduler.scheduleEvent(this, new Animation(this,0), this.getAnimationPeriod());//.getAnimationPeriod());
-
-        //scheduler.scheduleEvent(entity, entity.createActivityAction(entity,world, imageStore), actionPeriod);
-        //scheduler.scheduleEvent(entity,entity.createAnimationAction(entity,0), entity.getAnimationPeriod());
-        /*
-        switch (kind)
-        {
-            case MINER_FULL:
-                scheduler.scheduleEvent(entity, entity.createActivityAction(entity,world, imageStore), actionPeriod);
-                scheduler.scheduleEvent(entity,entity.createAnimationAction(entity,0), entity.getAnimationPeriod());
-
-                break;
-
-            case MINER_NOT_FULL:
-                scheduler.scheduleEvent(entity, entity.createActivityAction(entity,world, imageStore), actionPeriod);
-                scheduler.scheduleEvent(entity,entity.createAnimationAction(entity,0), entity.getAnimationPeriod());
-
-                break;
-
-            case ORE:
-                scheduler.scheduleEvent(entity, entity.createActivityAction(entity,world, imageStore), actionPeriod);
-
-                break;
-
-            case ORE_BLOB:
-                scheduler.scheduleEvent(entity, entity.createActivityAction(entity,world, imageStore), actionPeriod);
-                scheduler.scheduleEvent(entity,entity.createAnimationAction(entity,0), entity.getAnimationPeriod());
-
-                break;
-
-            case QUAKE:
-                scheduler.scheduleEvent(entity, entity.createActivityAction(entity,world, imageStore), actionPeriod);
-                scheduler.scheduleEvent(entity,entity.createAnimationAction(entity,QUAKE_ANIMATION_REPEAT_COUNT), entity.getAnimationPeriod());
-
-                break;
-
-            case VEIN:
-                scheduler.scheduleEvent(entity, entity.createActivityAction(entity,world, imageStore), actionPeriod);
-                break;
-
-            default:
-        }*/
     }
 }
