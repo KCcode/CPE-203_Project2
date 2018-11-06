@@ -15,7 +15,7 @@ public class MinerNotFull implements Miner {
     private int animationPeriod; //Already has a getter
 
     MinerNotFull(String id, Point position,
-              List<PImage> images, int resourceLimit, //int resourceCount,
+              List<PImage> images, int resourceLimit, int resourceCount,
               int actionPeriod, int animationPeriod)
     {
         this.id = id;
@@ -60,18 +60,20 @@ public class MinerNotFull implements Miner {
         scheduler.scheduleEvent(this, new Animation(this,0), this.getAnimationPeriod());
     }
 
+
     //Move to MinerNotFull Class and make it PRIVATE
     public boolean transformNotFull(WorldModel world, EventScheduler scheduler, ImageStore imageStore)
     {
         if (this.resourceCount >= this.resourceLimit)
         {
-            MinerFull miner = new MinerFull(id, position, images, resourceLimit, //resourceCount,
+            MinerFull miner = new MinerFull(id, position, images, resourceLimit, resourceLimit,
                     actionPeriod, animationPeriod);
 
             world.removeEntity(this);
             scheduler.unscheduleAllEvents(this);
             world.addEntity(miner);
-            this.scheduleActions(scheduler, world, imageStore);
+            //this.scheduleActions(scheduler, world, imageStore);
+            miner.scheduleActions(scheduler, world, imageStore);
 
             return true;
         }
@@ -131,5 +133,4 @@ public class MinerNotFull implements Miner {
 
         return newPos;
     }
-
 }

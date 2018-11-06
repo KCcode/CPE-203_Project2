@@ -193,7 +193,7 @@ final class Functions
                  Integer.parseInt(properties[Miner.MINER_ROW]));
 
          MinerNotFull entity = new MinerNotFull(properties[Miner.MINER_ID], pt, imageStore.getImageList(Miner.MINER_KEY),
-                 Integer.parseInt(properties[Miner.MINER_LIMIT]),
+                 Integer.parseInt(properties[Miner.MINER_LIMIT]),0,
                  Integer.parseInt(properties[Miner.MINER_ACTION_PERIOD]),
                  Integer.parseInt(properties[Miner.MINER_ANIMATION_PERIOD]));
 

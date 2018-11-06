@@ -15,7 +15,7 @@ public class MinerFull implements Miner
 
 
     MinerFull(String id, Point position,
-           List<PImage> images, int resourceLimit, //int resourceCount,
+           List<PImage> images, int resourceLimit, int resourceCount,
            int actionPeriod, int animationPeriod)
     {
         this.id = id;
@@ -61,13 +61,14 @@ public class MinerFull implements Miner
     public void transformFull(WorldModel world,EventScheduler scheduler, ImageStore imageStore)
     {
         //Kattia - Alert
-        MinerNotFull miner = new MinerNotFull(id, position, images, resourceLimit, //resourceCount,
+        MinerNotFull miner = new MinerNotFull(id, position, images, resourceLimit, 0,
                 actionPeriod, animationPeriod);
 
         world.removeEntity(this);
         scheduler.unscheduleAllEvents(this);
         world.addEntity(miner);
-        this.scheduleActions(scheduler, world, imageStore);
+        //this.scheduleActions(scheduler, world, imageStore);
+        miner.scheduleActions(scheduler, world, imageStore);
     }
 
     //Move to MinerFull and make private
@@ -125,4 +126,5 @@ public class MinerFull implements Miner
         scheduler.scheduleEvent(this, new Activity(this,world, imageStore), actionPeriod);
         scheduler.scheduleEvent(this, new Animation(this,0), this.getAnimationPeriod());//.getAnimationPeriod());
     }
+
 }
