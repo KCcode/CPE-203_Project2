@@ -13,19 +13,9 @@ public class Animation implements Action{
         entity.nextImage();
 
         if (repeatCount != 1) {
-            if (entity instanceof MinerFull){
-                scheduler.scheduleEvent(entity, new Animation(entity, Math.max(repeatCount -1, 0)),((MinerFull)entity).getAnimationPeriod());}
-
-            if (entity instanceof MinerNotFull){
-                scheduler.scheduleEvent(entity, new Animation(entity, Math.max(repeatCount -1, 0)),((MinerNotFull)entity).getAnimationPeriod());}
-            }
-
-            if (entity instanceof OreBlob){
-                scheduler.scheduleEvent(entity, new Animation(entity, Math.max(repeatCount -1, 0)),((OreBlob)entity).getAnimationPeriod());
-            }
-
-            if (entity instanceof Quake){
-                scheduler.scheduleEvent(entity, new Animation(entity, Math.max(repeatCount -1, 0)),((Quake)entity).getAnimationPeriod());
+            if(entity instanceof AnimatedObject){
+                scheduler.scheduleEvent(entity, new Animation(entity, Math.max(repeatCount -1, 0)),
+                        ((AnimatedObject)entity).getAnimationPeriod());}
             }
     }
 }

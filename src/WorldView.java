@@ -24,26 +24,26 @@ final class WorldView
 
    public void shiftView(int colDelta, int rowDelta)
    {
-      int newCol = Functions.clamp(viewport.getCol() + colDelta, 0,
-              world.getNumCols() - viewport.getNumCols());
-      int newRow = Functions.clamp(viewport.getRow() + rowDelta, 0,
-              world.getNumRows() - viewport.getNumRows());
+      int newCol = Functions.clamp(this.viewport.getCol() + colDelta, 0,
+              this.world.getNumCols() - this.viewport.getNumCols());
+      int newRow = Functions.clamp(this.viewport.getRow() + rowDelta, 0,
+              this.world.getNumRows() - this.viewport.getNumRows());
 
-      viewport.shift(newCol, newRow);
+      this.viewport.shift(newCol, newRow);
    }
 
    public void drawBackground()
    {
-      for (int row = 0; row < viewport.getNumRows(); row++)
+      for (int row = 0; row < this.viewport.getNumRows(); row++)
       {
-         for (int col = 0; col < viewport.getNumCols(); col++)
+         for (int col = 0; col < this.viewport.getNumCols(); col++)
          {
-            Point worldPoint = viewport.viewportToWorld(col, row);
-            Optional<PImage> image = world.getBackgroundImage(worldPoint);
+            Point worldPoint = this.viewport.viewportToWorld(col, row);
+            Optional<PImage> image = this.world.getBackgroundImage(worldPoint);
             if (image.isPresent())
             {
-               screen.image(image.get(), col * tileWidth,
-                       row * tileHeight);
+               this.screen.image(image.get(), col * this.tileWidth,
+                       row * this.tileHeight);
             }
          }
       }
@@ -51,23 +51,23 @@ final class WorldView
 
    public void drawEntities()
    {
-      for (Entity entity : world.getEntities())
+      for (Entity entity : this.world.getEntities())
       {
          Point pos = entity.getPosition();
 
-         if (viewport.contains(pos))
+         if (this.viewport.contains(pos))
          {
-            Point viewPoint = viewport.worldToViewport(pos.x,pos.y);
+            Point viewPoint = this.viewport.worldToViewport(pos.x,pos.y);
             //Kattia - Alert
-            screen.image(Functions.getCurrentImage(entity),
-                    viewPoint.x * tileWidth, viewPoint.y * tileHeight);
+            this.screen.image(Functions.getCurrentImage(entity),
+                    viewPoint.x * this.tileWidth, viewPoint.y * this.tileHeight);
          }
       }
    }
 
    public void drawViewport()
    {
-      drawBackground();
-      drawEntities();
+      this.drawBackground();
+      this.drawEntities();
    }
 }

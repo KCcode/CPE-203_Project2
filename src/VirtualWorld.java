@@ -78,7 +78,7 @@ public final class VirtualWorld
          next_time = time + TIMER_ACTION_PERIOD;
       }
 
-      view.drawViewport();
+      this.view.drawViewport();
    }
 
    public void keyPressed()
@@ -103,7 +103,7 @@ public final class VirtualWorld
                dx = 1;
                break;
          }
-         view.shiftView(dx, dy);
+         this.view.shiftView(dx, dy);
       }
    }
 
@@ -158,18 +158,7 @@ public final class VirtualWorld
    {
       for (Entity entity : world.getEntities())//.entities)
       {
-         if(entity instanceof MinerFull){((MinerFull)entity).scheduleActions(scheduler,world,imageStore);}
-
-         if(entity instanceof MinerNotFull){((MinerNotFull)entity).scheduleActions(scheduler,world,imageStore);}
-
-         if(entity instanceof Ore){((Ore)entity).scheduleActions(scheduler,world,imageStore);}
-
-         if(entity instanceof OreBlob){((OreBlob)entity).scheduleActions(scheduler,world,imageStore);}
-
-         if(entity instanceof Quake){((Quake)entity).scheduleActions(scheduler,world,imageStore);}
-
-         if(entity instanceof Vein){((Vein)entity).scheduleActions(scheduler,world,imageStore);}
-
+         if(entity instanceof ActionObject){((ActionObject)entity).scheduleActions(scheduler,world,imageStore);}
       }
    }
 

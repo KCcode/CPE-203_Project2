@@ -164,7 +164,6 @@ final class WorldModel
 
    public Optional<Point> findOpenAround(Point pos)
    {
-      //Kattia - Alert
       for (int dy = -(Ore.ORE_REACH); dy <= Ore.ORE_REACH; dy++)
       {
          for (int dx = -(Ore.ORE_REACH); dx <= Ore.ORE_REACH; dx++)

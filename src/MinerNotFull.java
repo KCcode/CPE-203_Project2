@@ -3,76 +3,46 @@ import processing.core.PImage;
 import java.util.List;
 import java.util.Optional;
 
-public class MinerNotFull implements Miner {
+public class MinerNotFull extends Miner {
 
-    private String id;
-    private Point position;
-    private List<PImage> images;
-    private int imageIndex;
-    private int resourceLimit;
     private int resourceCount;
-    private int actionPeriod;
-    private int animationPeriod; //Already has a getter
 
     MinerNotFull(String id, Point position,
-              List<PImage> images, int resourceLimit, int resourceCount,
+              List<PImage> images,
+                 int resourceLimit, int resourceCount,
               int actionPeriod, int animationPeriod)
     {
-        this.id = id;
-        this.position = position;
-        this.images = images;
-        this.imageIndex = 0;
-        this.resourceLimit = resourceLimit;
+        super(id, position, images, actionPeriod, animationPeriod, resourceLimit);
         this.resourceCount = 0;
-        this.actionPeriod = actionPeriod;
-        this.animationPeriod = animationPeriod;
     }
 
-    public void setPosition(Point inPos) {position = inPos;}
-    public Point getPosition(){return position;}
-    public int getAnimationPeriod() {return animationPeriod;}
+    public void setResourceCount(int inRC){this.resourceCount = inRC;}
+    public int getResourceCount(){return resourceCount;}
 
-
-    //NextImage only for classes that have animations
-    public void nextImage()
-    {
-        imageIndex = (imageIndex + 1) % images.size();
-    }
-
-    public List<PImage> getImages(){return images;}
-
-    public int getImageIndex(){return imageIndex;}
 
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler){
-        Optional<Entity> notFullTarget = world.findNearest(position, Ore.class);
+        Optional<Entity> notFullTarget = world.findNearest(this.getPosition(), Ore.class);
 
         if (!notFullTarget.isPresent() ||
                 !moveTo(world, notFullTarget.get(), scheduler) ||
                 !transformNotFull(world, scheduler, imageStore))
         {
-            scheduler.scheduleEvent(this, new Activity(this, world, imageStore), actionPeriod);
+            scheduler.scheduleEvent(this, new Activity(this, world, imageStore), this.getActionPeriod());
         }
     }
-
-    public void scheduleActions(EventScheduler scheduler,WorldModel world, ImageStore imageStore)
-    {
-        scheduler.scheduleEvent(this, new Activity(this,world, imageStore), actionPeriod);
-        scheduler.scheduleEvent(this, new Animation(this,0), this.getAnimationPeriod());
-    }
-
 
     //Move to MinerNotFull Class and make it PRIVATE
     public boolean transformNotFull(WorldModel world, EventScheduler scheduler, ImageStore imageStore)
     {
-        if (this.resourceCount >= this.resourceLimit)
+        if (this.resourceCount >= this.getResourceLimit())
         {
-            MinerFull miner = new MinerFull(id, position, images, resourceLimit, resourceLimit,
-                    actionPeriod, animationPeriod);
+            MinerFull miner = new MinerFull(this.getId(), this.getPosition(), this.getImages(),
+                    this.getResourceLimit(), this.getResourceLimit(),
+                    this.getActionPeriod(), this.getAnimationPeriod());
 
             world.removeEntity(this);
             scheduler.unscheduleAllEvents(this);
             world.addEntity(miner);
-            //this.scheduleActions(scheduler, world, imageStore);
             miner.scheduleActions(scheduler, world, imageStore);
 
             return true;
@@ -95,7 +65,7 @@ public class MinerNotFull implements Miner {
         }
         else
         {
-            Point nextPos = nextPositionMiner(world, target.getPosition());//target.position);
+            Point nextPos = this.nextPositionMiner(world, target.getPosition());//target.position);
 
             if (!this.getPosition().equals(nextPos))
             {
@@ -109,28 +79,5 @@ public class MinerNotFull implements Miner {
             }
             return false;
         }
-    }
-
-    //MinerFull AND MinerNotFull uses this send to Miner interface?
-    // Called by the move functions this should be PRIVATE
-    public Point nextPositionMiner(WorldModel world, Point destPos)
-    {
-        int horiz = Integer.signum(destPos.x - this.position.x);
-        Point newPos = new Point(this.position.x + horiz,
-                this.position.y);
-
-        if (horiz == 0 || world.isOccupied(newPos))
-        {
-            int vert = Integer.signum(destPos.y - this.position.y);
-            newPos = new Point(this.position.x,
-                    this.position.y + vert);
-
-            if (vert == 0 || world.isOccupied(newPos))
-            {
-                newPos = position;
-            }
-        }
-
-        return newPos;
     }
 }

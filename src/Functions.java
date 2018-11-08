@@ -24,6 +24,16 @@ final class Functions
    private static final int BGND_ROW = 3;
 
 
+   private static final String MINER_KEY = "miner";
+   private static final int MINER_NUM_PROPERTIES = 7;
+   private static final int MINER_ID = 1;
+   private static final int MINER_COL = 2;
+   private static final int MINER_ROW = 3;
+   private static final int MINER_LIMIT = 4;
+   private static final int MINER_ACTION_PERIOD = 5;
+   private static final int MINER_ANIMATION_PERIOD = 6;
+
+
    public static PImage getCurrentImage(Object entity)
    {
       if (entity instanceof Background)
@@ -154,7 +164,7 @@ final class Functions
          {
             case BGND_KEY:
                return parseBackground(properties, world, imageStore);
-            case Miner.MINER_KEY:
+            case MINER_KEY:
                return parseMiner(properties, world, imageStore);
             case Obstacle.OBSTACLE_KEY:
                return parseObstacle(properties, world, imageStore);
@@ -187,20 +197,20 @@ final class Functions
    public static boolean parseMiner(String [] properties, WorldModel world,
                                     ImageStore imageStore)
    {
-      if (properties.length == Miner.MINER_NUM_PROPERTIES)
+      if (properties.length == MINER_NUM_PROPERTIES)
       {
-         Point pt = new Point(Integer.parseInt(properties[Miner.MINER_COL]),
-                 Integer.parseInt(properties[Miner.MINER_ROW]));
+         Point pt = new Point(Integer.parseInt(properties[MINER_COL]),
+                 Integer.parseInt(properties[MINER_ROW]));
 
-         MinerNotFull entity = new MinerNotFull(properties[Miner.MINER_ID], pt, imageStore.getImageList(Miner.MINER_KEY),
-                 Integer.parseInt(properties[Miner.MINER_LIMIT]),0,
-                 Integer.parseInt(properties[Miner.MINER_ACTION_PERIOD]),
-                 Integer.parseInt(properties[Miner.MINER_ANIMATION_PERIOD]));
+         MinerNotFull entity = new MinerNotFull(properties[MINER_ID], pt, imageStore.getImageList(MINER_KEY),
+                 Integer.parseInt(properties[MINER_LIMIT]),0,
+                 Integer.parseInt(properties[MINER_ACTION_PERIOD]),
+                 Integer.parseInt(properties[MINER_ANIMATION_PERIOD]));
 
          world.tryAddEntity(entity);
       }
 
-      return properties.length == Miner.MINER_NUM_PROPERTIES;
+      return properties.length == MINER_NUM_PROPERTIES;
    }
 
    private static boolean parseObstacle(String [] properties, WorldModel world,
