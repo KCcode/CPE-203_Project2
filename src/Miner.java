@@ -3,15 +3,6 @@ import processing.core.PImage;
 import java.util.List;
 
 abstract class Miner extends AnimatedObject{
-    String MINER_KEY = "miner";
-    int MINER_NUM_PROPERTIES = 7;
-    int MINER_ID = 1;
-    int MINER_COL = 2;
-    int MINER_ROW = 3;
-    int MINER_LIMIT = 4;
-    int MINER_ACTION_PERIOD = 5;
-    int MINER_ANIMATION_PERIOD = 6;
-
     private int resourceLimit;
 
     Miner(String id, Point position, List< PImage > images, int actionPeriod, int animationPeriod, int resourceLimit){
