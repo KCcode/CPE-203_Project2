@@ -2,6 +2,10 @@ import processing.core.PImage;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiPredicate;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class OreBlob extends AnimatedObject
 {
@@ -11,7 +15,8 @@ public class OreBlob extends AnimatedObject
     public static final int BLOB_ANIMATION_MIN = 50;
     public static final int BLOB_ANIMATION_MAX = 150;
 
-
+    //private PathingStrategy ps = new SingleStepPathingStrategy();
+    private PathingStrategy ps = new AStar();
 
     OreBlob(String id, Point position,
            List<PImage> images,
@@ -78,28 +83,25 @@ public class OreBlob extends AnimatedObject
         }
     }
 
+
+    public List<Point> computePath(Point start, Point end, Predicate<Point> canPassThrough,
+                                   BiPredicate<Point, Point> withinReach,
+                                   Function<Point, Stream<Point>> potentialNeighbors) {
+        PathingStrategy ps = new SingleStepPathingStrategy();
+        return ps.computePath(start, end, canPassThrough, withinReach, potentialNeighbors);
+    }
+
     //OreBlob class and make private
-    public Point nextPositionOreBlob(WorldModel world,Point destPos)
-    {
-        int horiz = Integer.signum(destPos.x - this.getPosition().x);
-        Point newPos = new Point(this.getPosition().x + horiz,
-                this.getPosition().y);
+    public Point nextPositionOreBlob(WorldModel world,Point destPos) {
 
-        Optional<Entity> occupant = world.getOccupant(newPos);
 
-        if (horiz == 0 || (occupant.isPresent() && !(occupant.get().getClass() == Ore.class)))
-        {
-            int vert = Integer.signum(destPos.y - this.getPosition().y);
-            newPos = new Point(this.getPosition().x, this.getPosition().y + vert);
-            occupant = world.getOccupant(newPos);
+        Predicate<Point> canPassThrough = p -> !world.isOccupied(p) && world.withinBounds(p);
+        BiPredicate<Point, Point> withinReach = (Point p1, Point p2) -> Functions.adjacent(p1, p2);
+        List<Point> path = ps.computePath(this.getPosition(), destPos, canPassThrough, withinReach,
+                PathingStrategy.CARDINAL_NEIGHBORS);
+        if (path == null || path.size() == 0) { return this.getPosition();}
+        else {return path.get(0);}
 
-            if (vert == 0 ||
-                    (occupant.isPresent() && !(occupant.get().getClass() == Ore.class)))
-            {
-                newPos = this.getPosition();//this.setPosition(newPos);//newPos = position;
-            }
-        }
-        return newPos;
     }
 
 }
