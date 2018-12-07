@@ -15,8 +15,8 @@ public class OreBlob extends AnimatedObject
     public static final int BLOB_ANIMATION_MIN = 50;
     public static final int BLOB_ANIMATION_MAX = 150;
 
-    //private PathingStrategy ps = new SingleStepPathingStrategy();
-    private PathingStrategy ps = new AStar();
+    private PathingStrategy ps = new SingleStepPathingStrategy();
+    //private PathingStrategy ps = new AStar();
 
     OreBlob(String id, Point position,
            List<PImage> images,
@@ -81,14 +81,6 @@ public class OreBlob extends AnimatedObject
             }
             return false;
         }
-    }
-
-
-    public List<Point> computePath(Point start, Point end, Predicate<Point> canPassThrough,
-                                   BiPredicate<Point, Point> withinReach,
-                                   Function<Point, Stream<Point>> potentialNeighbors) {
-        PathingStrategy ps = new SingleStepPathingStrategy();
-        return ps.computePath(start, end, canPassThrough, withinReach, potentialNeighbors);
     }
 
     //OreBlob class and make private

@@ -45,7 +45,6 @@ public class MinerFull extends Miner
         MinerNotFull miner = new MinerNotFull(this.getId(), this.getPosition(), this.getImages(),
                 this.getResourceLimit(), 0,
                 this.getActionPeriod(), this.getAnimationPeriod());
-                //actionPeriod, animationPeriod);
 
         world.removeEntity(this);
         scheduler.unscheduleAllEvents(this);
@@ -78,16 +77,4 @@ public class MinerFull extends Miner
             return false;
         }
     }
-/*
-    @Override
-    public List<Point> computePath(Point start, Point end, Predicate<Point> canPassThrough,
-                                   BiPredicate<Point, Point> withinReach,
-                                   Function<Point, Stream<Point>> potentialNeighbors) {
-
-        //PathingStrategy.super.computePath(start, end, canPassThrough, withinReach, potentialNeighbors)
-
-        //PathingStrategy.super.computePath(start, end, canPassThrough, withinReach, potentialNeighbors);
-         PathingStrategy s = new SingleStepPathingStrategy();
-        return ((SingleStepPathingStrategy) s).computePath(start, end, canPassThrough, withinReach, potentialNeighbors);
-    }*/
 }

@@ -1,27 +1,18 @@
 import processing.core.PImage;
-
 import java.util.List;
 import java.util.Optional;
 
-public class MinerNotFull extends Miner {
+public class WyvernNotFull extends Wyvern {
+    int amountAte;
 
-    private int resourceCount;
-
-    MinerNotFull(String id, Point position,
-              List<PImage> images,
-                 int resourceLimit, int resourceCount,
-              int actionPeriod, int animationPeriod)
-    {
-        super(id, position, images, actionPeriod, animationPeriod, resourceLimit);
-        this.resourceCount = 0;
+    WyvernNotFull(String id, Point position, List< PImage > images, int actionPeriod, int animationPeriod, int inLimitEat,
+               int inAmountAte){
+        super(id, position, images, actionPeriod, animationPeriod,inLimitEat);
+        this.amountAte = 0;
     }
 
-    public void setResourceCount(int inRC){this.resourceCount = inRC;}
-    public int getResourceCount(){return resourceCount;}
-
-
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler){
-        Optional<Entity> notFullTarget = world.findNearest(this.getPosition(), Ore.class);
+        Optional<Entity> notFullTarget = world.findNearest(this.getPosition(), MinerFull.class);
 
         if (!notFullTarget.isPresent() ||
                 !moveTo(world, notFullTarget.get(), scheduler) ||
@@ -34,16 +25,15 @@ public class MinerNotFull extends Miner {
     //Move to MinerNotFull Class and make it PRIVATE
     public boolean transformNotFull(WorldModel world, EventScheduler scheduler, ImageStore imageStore)
     {
-        if (this.resourceCount >= this.getResourceLimit())
+        System.out.println("transform to not full");
+        if (this.amountAte >= this.getWyvernLimit())
         {
-            MinerFull miner = new MinerFull(this.getId(), this.getPosition(), this.getImages(),
-                    this.getResourceLimit(), this.getResourceLimit(),
-                    this.getActionPeriod(), this.getAnimationPeriod());
-
+            WyvernFull wyvern = new WyvernFull(this.getId(),this.getPosition(), this.getImages(), this.getActionPeriod(),
+                    this.getAnimationPeriod(), this.getWyvernLimit(), this.getWyvernLimit());
             world.removeEntity(this);
             scheduler.unscheduleAllEvents(this);
-            world.addEntity(miner);
-            miner.scheduleActions(scheduler, world, imageStore);
+            world.addEntity(wyvern);
+            wyvern.scheduleActions(scheduler, world, imageStore);
 
             return true;
         }
@@ -57,7 +47,7 @@ public class MinerNotFull extends Miner {
 
         if (Functions.adjacent(this.getPosition(),target.getPosition()))
         {
-            this.resourceCount += 1;
+            this.amountAte += 1;
             world.removeEntity(target);
             scheduler.unscheduleAllEvents(target);
 
@@ -65,7 +55,7 @@ public class MinerNotFull extends Miner {
         }
         else
         {
-            Point nextPos = this.nextPositionMiner(world, target.getPosition());
+            Point nextPos = this.nextPositionWyvern(world, target.getPosition());//target.position);
 
             if (!this.getPosition().equals(nextPos))
             {
@@ -80,4 +70,5 @@ public class MinerNotFull extends Miner {
             return false;
         }
     }
+
 }

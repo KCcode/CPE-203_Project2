@@ -1,4 +1,4 @@
-miner miner_6_3 6 3 2 813 100
+miner miner_6_3 6 3 1 813 100
 miner miner_5_6 5 6 2 992 100
 vein vein_7_11 7 11 9377
 vein vein_8_11 8 11 13146
@@ -10,7 +10,7 @@ blacksmith blacksmith_39_14 39 14
 blacksmith blacksmith_39_0 39 0
 blacksmith blacksmith_20_0 20 0
 blacksmith blacksmith_19_14 19 14
-blacksmith blacksmith_0_11 0 11
+blacksmith blacksmith3_0_11 0 11
 vein vein_33_11 33 11 10278
 vein vein_33_13 33 13 10865
 vein vein_33_3 33 3 11101

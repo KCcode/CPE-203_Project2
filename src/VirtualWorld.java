@@ -1,5 +1,8 @@
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import processing.core.*;
 
@@ -41,6 +44,8 @@ public final class VirtualWorld
    private EventScheduler scheduler;
 
    private long next_time;
+
+   private int id = 0;
 
    public void settings()
    {
@@ -90,21 +95,78 @@ public final class VirtualWorld
 
          switch (keyCode)
          {
-            case UP:
+            case UP: //UP
                dy = -1;
                break;
-            case DOWN:
+            case DOWN: //DOWN
                dy = 1;
                break;
-            case LEFT:
+            case LEFT: //LEFT
                dx = -1;
                break;
-            case RIGHT:
+            case RIGHT: //RIGHT
                dx = 1;
                break;
          }
          this.view.shiftView(dx, dy);
+
       }
+   }
+
+   public void mousePressed()
+   {
+      //Returns grid coordinates in current view
+      List<Point> aoePoints = new ArrayList<>();
+      Background areaEffect = new Background("none",imageStore.getImageList("none"));
+
+      Point pressed = mouseToPoint(mouseX, mouseY);
+      Point p2 = view.getViewport().viewportToWorld(pressed.x, pressed.y);
+
+
+      System.out.println("x, y: "+ + p2.x + " "+ p2.y );
+
+
+
+      for(int i = -2; i <= 2 ; i++){
+         for( int j = -2; j <= 2; j++){
+            Point point = new Point(p2.x + i, p2.y + j);
+            aoePoints.add(point);
+         }
+      }
+
+      for(Point p : aoePoints){
+         world.setBackground(p, areaEffect);
+         if (world.isOccupied(p) && (world.getOccupant(p).get().getClass() == MinerNotFull.class)){
+            scheduler.unscheduleAllEvents(world.getOccupant(p).get());
+            world.removeEntity(world.getOccupant(p).get());
+
+            WyvernNotFull wyvern = new WyvernNotFull(Wyvern.WYVERN_KEY + id++, p,
+                    imageStore.getImageList(Wyvern.WYVERN_KEY), Wyvern.WYVERN_ACTION_PERIOD,
+                    Wyvern.WYVERN_ANIMATION_PERIOD,
+                    Wyvern.WYVERN_LIMIT, 0);
+
+            world.addEntity(wyvern);
+            wyvern.scheduleActions(scheduler, world, imageStore);
+
+
+            //Spawn a freeze entity
+
+            Freeze freeze = new Freeze(Freeze.FREEZE_KEY, new Point(p.x+2, p.y),
+                    imageStore.getImageList(Freeze.FREEZE_KEY),
+                    Freeze.FREEZE_ANIMATION_PERIOD, Freeze.FREEZE_ACTION_PERIOD);
+            world.addEntity(freeze);
+            freeze.scheduleActions(scheduler, world, imageStore);
+
+            System.out.print("true");
+
+         }
+      }
+      System.out.println("(X,Y): "+ pressed.x + " "+ pressed.y);
+   }
+
+   private Point mouseToPoint(int x, int y)
+   {
+      return new Point(x/(TILE_WIDTH), y/(TILE_HEIGHT));
    }
 
    public static Background createDefaultBackground(ImageStore imageStore)

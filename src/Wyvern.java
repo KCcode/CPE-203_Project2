@@ -1,23 +1,26 @@
 import processing.core.PImage;
-
 import java.util.List;
 import java.util.function.BiPredicate;
-import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
-abstract class Miner extends AnimatedObject{
-    private int resourceLimit;
-    private PathingStrategy ps = new SingleStepPathingStrategy();
-    //private PathingStrategy ps = new AStar();
+abstract class Wyvern extends AnimatedObject {
 
-    Miner(String id, Point position, List< PImage > images, int actionPeriod, int animationPeriod, int resourceLimit){
+    public static final String WYVERN_KEY = "wyvern";
+    public static final int WYVERN_LIMIT = 1;
+    public static final int WYVERN_ACTION_PERIOD = 200;
+    public static final int WYVERN_ANIMATION_PERIOD = 100;
+
+    int wyvernLimit;
+    PathingStrategy ps = new SingleStepPathingStrategy();
+    //PathingStrategy ps = new AStar();
+
+    Wyvern(String id, Point position, List< PImage > images, int actionPeriod, int animationPeriod, int inLimitEat){
         super(id, position, images, actionPeriod, animationPeriod);
-            this.resourceLimit = resourceLimit;
+        wyvernLimit = inLimitEat;
     }
 
-    public void setResourceLimit(int inRC){ this.resourceLimit = inRC;}
-    public int getResourceLimit(){return this.resourceLimit;}
+    public void setWyvernLimit(int inRC){ this.wyvernLimit = inRC;}
+    public int getWyvernLimit(){return this.wyvernLimit;}
 
     abstract boolean moveTo(WorldModel world, Entity target, EventScheduler scheduler); //*Full or NotFull
 
@@ -27,7 +30,7 @@ abstract class Miner extends AnimatedObject{
         scheduler.scheduleEvent(this, new Animation(this,0), this.getAnimationPeriod());
     }
 
-    public Point nextPositionMiner(WorldModel world, Point destPos)
+    public Point nextPositionWyvern(WorldModel world, Point destPos)
     {
         Predicate<Point> canPassThrough = p ->!world.isOccupied(p) && world.withinBounds(p);
         BiPredicate<Point, Point> withinReach = (Point p1, Point p2)->Functions.adjacent(p1,p2);

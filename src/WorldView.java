@@ -65,6 +65,10 @@ final class WorldView
       }
    }
 
+   public Viewport getViewport() {
+      return viewport;
+   }
+
    public void drawViewport()
    {
       this.drawBackground();
